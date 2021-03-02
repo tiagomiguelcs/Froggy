@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title></title>
+ <meta charset="utf-8" />
+ <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto" />
+
+</head>
+<body> 
+    <div style="font-family: Roboto; position: absolute;left: 50%;top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);">
+        <div style=" margin-left: auto; margin-right: auto;display: block;">
+            <table>
+                <tr>
+                    <td align="center"><img width="164px" height="164px" src="{{url_for('static', filename='logo.png')}}"/></td>
+                </tr>
+                <tr>
+                    <td align="middle" style="text-transform:uppercase"><b>Froggy {{version}}</b></td>
+                </tr>
+		<tr>
+			<td>
+			<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+			<img src="https://img.shields.io/badge/Flask-97ca00?style=for-the-badge&logo=flask&logoColor=white"/>
+			</td>
+		</tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
