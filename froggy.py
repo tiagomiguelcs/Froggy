@@ -4,6 +4,9 @@
   __\ \\\___/// /__
  '-._.'/M\ /M\`._,-
 """
+# To Use on-the-fly certificates please run Flask as follows: 
+# flask run --cert=adhoc
+
 from flask import Flask, render_template
 from configparser import SafeConfigParser
 __version__     = 0.1
@@ -21,3 +24,5 @@ import handlers.hops
 @framework.route('/')
 def home():
     return render_template('froggy.html', version=__version__)
+
+

@@ -13,7 +13,7 @@ from handlers.gadgets import print, json_response
 class BadRequest(Exception):
     """BadRequest class, the name says it all.
     """
-   def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.path       = kwargs.get('path', None)
         self.message    = kwargs.get('message', None)
         self.status     = kwargs.get('status', None)
