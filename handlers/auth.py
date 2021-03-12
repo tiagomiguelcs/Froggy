@@ -6,7 +6,7 @@
 
 Froggy Authentication
 - Froggy's authentication and authorization implementations follows the workflow defined 
-- for JSON Web Tokens (JWT), see https://jwt.io/introduction for more details.
+  for JSON Web Tokens (JWT), see https://jwt.io/introduction for more details.
 """
 
 from froggy import framework, __version__, JWT_SECRET_TOKEN, JWT_EXPIRATION_SECONDS
@@ -46,27 +46,35 @@ def authenticate(user, email, db_psw, psw):
     """
     # Check if the hashed password, available on a database, is the same as the one provided by the user.
     if check_password(db_psw, psw):
+        con = sqlite3.connect(".froggy.db")
+        cur = con.cursor()
+       
+        # Add the access token to a table of an internal froggy database, remove this authorization token after logout or the expiration time is reached.
+        try:
+            # Only one authorization access token is allowed per user.
+            cur.execute("CREATE TABLE auth (token text UNIQUE, email text UNIQUE, createdon datetime, updatedon datetime)")
+        except:
+            # Assuming the table already exists
+            pass
+
+        # Check if user is already authenticated, if so, just create a new token and delete the old one
+        cur.execute("SELECT token FROM auth WHERE email=?",[email])
+        row = cur.fetchone()
+        if row is not None:
+            cur.execute("DELETE FROM auth WHERE token=?", [row[0]])
+            con.commit()        
+        
         # Generate the access token to encode the user data 
         user['exp']     = datetime.utcnow() + timedelta(seconds=int(JWT_EXPIRATION_SECONDS))
         user['token']   = (jwt.encode(user, JWT_SECRET_TOKEN, algorithm='HS256'))
-        
-        # Add the access token to a table of an internal froggy database, remove this authorization token after logout or the expiration time is reached.
-        con = sqlite3.connect("froggy.db")
-        cur = con.cursor()
-        try:
-            # Only when authorization access token is allowed per user.
-            cur.execute("CREATE TABLE auth (token text UNIQUE, email text UNIQUE, createdon datetime, updatedon datetime)")
-        except:
-            # Assuming that table already exists
-            pass
-
+ 
         # Insert the access token into the auth table
         try:
             cur.execute("INSERT INTO auth VALUES (?,?,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",[user['token'], email])
+            con.commit()
         except sqlite3.IntegrityError as e:
-            raise BadRequest(path=request.path, error=str(e), message="User Already Authenticated", status=200)
-            
-        con.commit()
+            raise BadRequest(path=request.path, error=str(e), message="User Already Authenticated with token="+user['token'], status=200)
+        
         # Just close an 'go home'.
         cur.close()
         con.close()
@@ -83,7 +91,7 @@ def hop_out(request):
     Returns:
         Returns a json response object.
     """
-    con     = sqlite3.connect("froggy.db")
+    con     = sqlite3.connect(".froggy.db")
     cur     = con.cursor()
     token   = get_auth_token(request)
     # Remove the authorization token from the database, i.e., user will no longer be able to use froggy's services.
@@ -114,7 +122,7 @@ def get_auth_token(request):
     
     return (headers['Authorization'])
 
-def expired(token):
+def expired_or_invalid(token):
     """Check if a token is still valid (expired?).
 
     Args:
@@ -123,15 +131,14 @@ def expired(token):
     Returns:
         True if the token is expired, false otherwise.
     """
-    end_date = dateparser.parse(str((jwt.decode(token, JWT_SECRET_TOKEN, algorithms=['HS256']))['exp']))
-    #print("end_date="+str(end_date))
-    now_date = datetime.now()
-    #print("now_date="+str(now_date))
-    seconds = (now_date - end_date).seconds
-    print("Elapsed seconds between the expiration date and the current date = " + str(seconds))
-    if (seconds > int(JWT_EXPIRATION_SECONDS)):
-        return(True)
-    return(False)
+    # Let's just use jwt.decode to verify if the token is expired or invalid
+    try:
+        jwt.decode(token, JWT_SECRET_TOKEN, algorithms=['HS256'])
+        return False
+    except (jwt.DecodeError, jwt.ExpiredSignatureError) as e: 
+        return True
+        #raise BadRequest(path=request.path, message="Authorization token expired", error=str(e) )
+
 
 def authorized(request):
     """Check if the user is authenticated, authorized to access a service. This is accomplished by checking if the 
@@ -148,15 +155,15 @@ def authorized(request):
 
     # print("Searching for token: " + str(token))
     # Check if the token exists on the database, table auth
-    con = sqlite3.connect("froggy.db")
+    con = sqlite3.connect(".froggy.db")
     cur = con.cursor()
     
     # Get the list of registered tokens
     for row in cur.execute("SELECT token FROM auth WHERE token=?",[token]):
         # Check if the authorization token is still valid (i.e., is the token expired ?)
-        if (expired(token)):
-            # The token is expired, remove the authorization from the database and return false 
-            # that is, the user is not authorized to access the target resource.
+        if (expired_or_invalid(token)):
+            # If the token is expired or invalid, remove the authorization from the database and return false 
+            # that is, the user is no longer authorized to access the requested resource.
             cur.execute("DELETE FROM auth WHERE token=?", [token])
             con.commit()
             return(False)

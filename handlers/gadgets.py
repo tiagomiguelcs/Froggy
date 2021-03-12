@@ -8,6 +8,17 @@
 from froggy import framework, __version__
 from flask import Flask, request, jsonify
 
+def fprint(message, **kwargs):
+    """The worldly know froggy custom print function (not really!).
+    Args:
+        message: Message to display using the standard print function
+        kwargs: the name of function calling fprint: function=main. 
+                Froggy knows that we can use inspect.stack, but this way is better (he thinks!)
+    """
+    function = kwargs.get('function', None) 
+    if (function is not None): function = "("+function+")"
+    print("[Froggy] " + function + ":" + message)
+
 def improved_print(func):
     """Use a decorator to add some "sparkle" to the print function, froggy needs some blush!
     Args:

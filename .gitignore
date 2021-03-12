@@ -4,3 +4,4 @@ __pycache__/
 *.swp
 *.db
 config.cfg
+static/docs/*

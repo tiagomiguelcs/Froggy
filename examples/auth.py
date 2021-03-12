@@ -16,13 +16,24 @@ from handlers.auth import authenticate, hop_out
 
 @frogify('/examples/auth/login', methods=['POST'])
 def login():
-    """Example of an Authentication Service using a sqlite3 database and the froggy framework."""
-    # POST only:
+    """
+    @api {post} /examples/auth/login Authentication Service    
+    @apiName demo 
+    @apiDescription Example of an Authentication Service using sqlite3 and the froggy framework. 
+    @apiGroup User
+    @apiParam {String} email=kermit@muppets.com Email of the user.
+    @apiParam {String} psw=123 User's password. 
+    @apiExample {curl} Example usage:
+        curl -d "email=kermit@muppets.com&psw=123" -X POST http://localhost:5000/examples/auth/login
+    """
     email = request.form['email']
     psw   = request.form['psw']
     db_psw = None
-    os.remove('auth.db')
-    con = sqlite3.connect('auth.db')
+    try: 
+        os.remove('examples/auth.db')
+    except:
+        pass
+    con = sqlite3.connect('examples/auth.db')
     try:
         cur = con.cursor();
         # Create the table that will contain our test user
@@ -56,14 +67,27 @@ def login():
 
 @frogify('/examples/auth/logout', methods=['GET'])
 def logout():
-    """Logout demo service using the froggy framework.
+    """"
+    @api {get} /examples/auth/logout Logout Service   
+    @apiName logout 
+    @apiDescription Server side logout using the JWT token. 
+    @apiGroup User
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" http://localhost:5000/examples/auth/logout
+    @apiHeader (Authorization) {String} Authorization Web Token
     """
     return(hop_out(request))
 
 
 @frogify('/examples/auth/secure', authorization=True, methods=['GET'])
 def secure():
-    """Authorization example, the secure service can only be accessed 
-    only if the user has an authorization access token.
+    """"
+    @api {get} /examples/auth/secure Secured Service    
+    @apiName secure 
+    @apiDescription Autorization Service, the secure service can only be accessed if the user has a valid authorization token issued by froggy. 
+    @apiGroup User
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" http://localhost:5000/examples/auth/secure
+    @apiHeader (Authorization) {String} Authorization Web Token
     """
     return(json_response(data={"message": "this is a secure service only accessible by authorized users."}))
