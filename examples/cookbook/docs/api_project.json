@@ -1,8 +1,8 @@
-define({
-  "name": "Froggy - The Python REST Framework",
+{
+  "name": "Froggy'a CookBook",
   "version": "1.0.0",
-  "description": "A keet it simple, stupid (KISS) framework for the development of REST-based services.",
-  "title": "A Flask REST API example",
+  "description": "Code Examples using Froggy.",
+  "title": "Froggy's CookBook",
   "url": "http://localhost:5000",
   "template": {
     "withCompare": false,
@@ -13,8 +13,8 @@ define({
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2021-03-12T10:47:50.337Z",
+    "time": "2021-03-20T18:52:27.770Z",
     "url": "https://apidocjs.com",
     "version": "0.26.0"
   }
-});
+}

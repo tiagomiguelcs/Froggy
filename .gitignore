@@ -1,6 +1,10 @@
+.vscode/
 venv/
 __pycache__/
 .flaskenv
 *.swp
 *.db
+*.mdb
+instance.py
+froggy.egg-info/
 config.cfg
