@@ -5,6 +5,5 @@ __pycache__/
 *.swp
 *.db
 *.mdb
-instance.py
 froggy.egg-info/
 config.cfg
