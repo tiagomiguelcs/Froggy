@@ -1,7 +1,7 @@
 {
-  "name": "Froggy'a CookBook",
+  "name": "Froggy's CookBook",
   "version": "1.0.0",
-  "description": "Code Examples using Froggy.",
+  "description": "Examples of Web Services using Froggy's APIs.",
   "title": "Froggy's CookBook",
   "url" : "http://localhost:5000",
 	"template" : {
