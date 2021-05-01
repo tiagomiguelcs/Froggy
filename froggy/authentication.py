@@ -5,8 +5,9 @@
  '-._.'/M\ /M\`._,-
 Froggy Authentication
 """
+from flask import request
 from datetime import datetime, timedelta
-import sqlite3, os, hashlib, jwt, dateparser, codecs
+import sqlite3, os, hashlib, jwt, dateparser, codecs, bcrypt
 import froggy
 
 class Authentication(froggy.framework.Framework):
@@ -21,17 +22,32 @@ class Authentication(froggy.framework.Framework):
         """Check if a hashed password (from a database) is equal to the one provided by a user.
 
         Args:
-            db_hashed_psw (string): hashed password.
-            user_psw (string): plaintext user inputted password. user inputted password (plaintext).
-        
+            db_hashed_psw (string): The hashed password.
+            user_psw (string): The plaintext user inputted password.
         Returns:
             True if both passwords are equal, false otherwise.
         """
-        # Split the hash of the password and the salt
-        psw, salt = db_hashed_psw.split(':');
-        # Hash and salt the password provided by the user, 'psw', and compare it to 'hashed_psw'
-        # 'This is Sparta!'
-        return psw == hashlib.sha256(salt.encode() + user_psw.encode()).hexdigest()
+        if bcrypt.checkpw(user_psw.encode(), db_hashed_psw):
+            # 'This is Sparta!'   
+            return(True)
+        else:
+            # 'I'm walking here! I'm walking here!'
+            return(False)
+    
+    def hash_password(self, psw):
+        """ Hash a password with some 'salt' using bcrypt
+
+        Args:
+            psw (string): The password to hash.
+        Returns:
+            [type]: The hashed password that includes the 'salt'
+        Examples:
+            froggy.gadgets.hash_password("123")
+        """
+        salt = bcrypt.gensalt()
+        hashed_psw = bcrypt.hashpw(psw.encode(), salt)
+        return(hashed_psw)
+
 
 class JWTAuth(Authentication):
     """ JSON Web Tokens
@@ -55,7 +71,7 @@ class JWTAuth(Authentication):
         """ Authenticates the user by comparing two hashed and dynamically salted passwords.
 
         Args:
-            user (list): The user is represented as a Python dictionary and it will be included in the authorization access token.
+            user (dictionary): The user is represented as a Python dictionary and it will be included in the authorization access token.
             email (string): User email.
             db_psw (string): Database password (salted and hashed).
             psw (string): Plaintext password inputted by the user (sent through https).
@@ -92,14 +108,14 @@ class JWTAuth(Authentication):
                 cur.execute("INSERT INTO auth VALUES (?,?,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",[user['token'], email])
                 con.commit()
             except sqlite3.IntegrityError as e:
-                raise BadRequest(self.framework, path=request.path, error=str(e), message="User Already Authenticated with token="+user['token'], status=200)
+                raise froggy.exceptions.BadRequest(path=request.path, error=str(e), message="User Already Authenticated with token="+user['token'], status=200)
             
             # Just close an 'go home'.
             cur.close()
             con.close()
         else:
             # Frog MIA
-            raise BadRequest(self.framework, path=request.path,message="Unknown Frog",error="Authentication failure",status=401,debug=True)
+            raise froggy.exceptions.BadRequest(path=request.path,message="Unknown Frog",error="Authentication failure",status=401,debug=True)
 
     def hop_out(self, request):
         """Log out using the authorization access token provided by the user in the header of the request.
@@ -120,7 +136,7 @@ class JWTAuth(Authentication):
         except sqlite3.Error as e:
             cur.close()
             con.close()
-            raise BadRequest(path=request.path,message=(str(e.args)),error="SQlite3 Error",status=500)
+            raise froggy.exceptions.BadRequest(path=request.path,message=(str(e.args)),error="SQlite3 Error",status=500)
         cur.close()
         con.close()
         # "'I have to return some videotapes'"
@@ -138,7 +154,7 @@ class JWTAuth(Authentication):
         headers = dict(request.headers)
         if 'Authorization' not in headers: 
             # Authentication token MIA raise bad request
-            raise BadRequest(path=request.path,message="Authorization token not provided",error="Authorization Failure",status=403)
+            raise froggy.exceptions.BadRequest(path=request.path,message="Authorization token not provided",error="Authorization Failure",status=403)
         # 'You're a wizard, 'arry.'"
         return (headers['Authorization'])
 

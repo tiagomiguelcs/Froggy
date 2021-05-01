@@ -14,8 +14,10 @@ class BadRequest(froggy.framework.Framework, Exception):
     def __init__(self, **kwargs):
         self.path       = kwargs.get('path', None)
         self.message    = kwargs.get('message', None)
-        self.status     = kwargs.get('status', None)
+        self.operation  = kwargs.get('operation', None)
+        self.status     = kwargs.get('status', 500)
         self.error      = kwargs.get('error', None) # Short error name (e.g., Internal Server Error)
+        self.API        = kwargs.get('API', None) # The error is originated from... (e.g. froggy's database API).
         self.debug      = bool(kwargs.get('debug', False))
 
 # @froggy.app.errorhandler(froggy.exceptions.BadRequest)
@@ -29,17 +31,19 @@ def handle_bad_request(error):
             [message]    - A description of the error
             path         - Service endpoint (use, request.path)
     """
-    # Create Python Dictionary to hold the data related to the error.
     data={
         "timestamp" : datetime.utcnow().strftime('%d/%m/%y %H:%M:%S,%f')[:-3],
-        "status"    : error.status,
         "error"     : error.error,
-        "message"   : error.message,
-        "path"      : error.path,
-        "debug"     : False
+        "operation" : error.operation
     }
+    # Create Python Dictionary to hold the data related to the error.
+    if error.message is not None:
+        data["message"] = error.message
+    if error.path is not None:
+        data["path"] = error.path
+
     # Internal debugger
     if (error.debug): print(str(data))
      
     # "Roads? Where We’re Going, We Don’t Need Roads."
-    return error.response(data)
+    return error.response(data, status=error.status)

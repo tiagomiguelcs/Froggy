@@ -7,7 +7,6 @@
 """
 import os
 
-# if a path has white spaces for example /Google Drive/ then this method will added ' -> /'Google Drive'
 def normpath(path):
     """ Normalize a path.
         Expand the os.path.normpath to wrap white-spaced words with apostrophes (e.g. /Google Drive -> /'Google Drive').
@@ -34,6 +33,29 @@ def fprint(message, **kwargs):
                 Froggy knows that we can use inspect.stack, but this way is better (he thinks!).
     """
     function = kwargs.get('function', None) 
-    if (function is not None): function = "("+function+")"
-    print("[Froggy] " + function + ":" + message)
+    if (function is not None): 
+        print("[Froggy] ("+function+"):" + message)
+    else:
+        print("[Froggy]:"+message)
+   
 
+def exists(test_subject, keys):
+    """Check if a list of keys exists in an object.
+
+    Args:
+        test_subject (Dictionary): The dictionary object.
+        keys (List of strings): The list of keys to be checked against the 'test_subject'.
+    Returns:
+        bool: True if the list of keys is available, false otherwise.
+    Examples:
+        froggy.gadgets.exists({"id": 1, "name": "Anna"}, {"createdon", "updatedon"})
+    """
+    for key in keys:
+        if key in test_subject:
+            # Check if there is a value in the key, if not, return false.
+            if (not test_subject[key]): 
+                return(False)
+        else:
+            return(False)
+    # 'They call me Mister Tibbs!'
+    return(True)

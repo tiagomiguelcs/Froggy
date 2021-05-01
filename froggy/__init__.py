@@ -13,6 +13,7 @@ from . import gadgets
 from . import exceptions
 from . import authentication
 from . import files
+from . import database
 
 if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
     print("""\

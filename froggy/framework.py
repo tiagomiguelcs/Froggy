@@ -21,7 +21,7 @@ class Framework:
 
         Args:
             app (Flask): The Flask application object.
-            settings (list): A python dictionary where froggy settings should be specified.
+            settings (dictionary): A python dictionary where froggy settings should be specified.
         """
         # Set froggy settings from the 'settings' dic.
         self.name               = settings['name']
@@ -111,29 +111,22 @@ class Framework:
         """Creates a JSON response object built around the data python dictionary.
             
         Args:
-            data (list): The Python dictionary containing the data for the JSON response object.
+            data (dictionary): The Python dictionary containing the data for the JSON response object.
         
         Returns:
             JSON response object.
         """
-        try:
-            debug = bool(kwargs.get('debug', False))
-        except KeyError:
-            debug = False
-        if (debug): print(data)
+        
+        res = {}
+        res["froggy"] = froggy.__version__
+        res["status"] = kwargs.get("status", 200)
         if (data is not None):
-            data["froggy"] = froggy.__version__
-        else:
-            data = {
-               "froggy": froggy.__version__,
-               "status": 200
-            }
-            
+            res['data'] = data
+        
         # Creates a Response with the JSON representation of data
         # 'You've got red on you.'
-        return(jsonify(data))
+        return(jsonify(res))
 
-    
     def home(self):
         """Froggy custom route
         This function renders Froggy's landpage.
