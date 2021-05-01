@@ -1,7 +1,7 @@
 define({
-  "name": "Froggy'a CookBook",
+  "name": "Froggy's CookBook",
   "version": "1.0.0",
-  "description": "Code Examples using Froggy.",
+  "description": "Examples of Web Services using Froggy's APIs.",
   "title": "Froggy's CookBook",
   "url": "http://localhost:5000",
   "template": {
@@ -13,7 +13,7 @@ define({
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2021-05-01T15:48:13.383Z",
+    "time": "2021-05-01T16:31:08.491Z",
     "url": "https://apidocjs.com",
     "version": "0.26.0"
   }
