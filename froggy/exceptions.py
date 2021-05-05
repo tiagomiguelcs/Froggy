@@ -31,16 +31,19 @@ def handle_bad_request(error):
             [message]    - A description of the error
             path         - Service endpoint (use, request.path)
     """
-    data={
-        "timestamp" : datetime.utcnow().strftime('%d/%m/%y %H:%M:%S,%f')[:-3],
-        "error"     : error.error,
-        "operation" : error.operation
-    }
+    data={"timestamp" : datetime.utcnow().strftime('%d/%m/%y %H:%M:%S,%f')[:-3]}
     # Create Python Dictionary to hold the data related to the error.
     if error.message is not None:
         data["message"] = error.message
+    
     if error.path is not None:
         data["path"] = error.path
+    
+    if error.error is not None:
+        data["error"] = error.error
+
+    if error.operation is not None:
+        data["operation"] = error.operation
 
     # Internal debugger
     if (error.debug): print(str(data))

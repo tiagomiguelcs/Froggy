@@ -5,7 +5,7 @@
  '-._.'/M\ /M\`._,-
     Froggy's Home
 """
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, make_response, request, render_template, redirect, url_for, jsonify
 from configparser import SafeConfigParser
 import froggy, os, functools, subprocess, shlex
 
@@ -16,23 +16,39 @@ class Framework:
     
     On initialization it will load Froggy settings along with the Flask application object
     """
-    def __init__(self, app, settings):
+    def __init__(self, app, settings=None):
         """[summary]
 
         Args:
             app (Flask): The Flask application object.
             settings (dictionary): A python dictionary where froggy settings should be specified.
         """
-        # Set froggy settings from the 'settings' dic.
-        self.name               = settings['name']
-        self.app_package        = settings['package'] # App name that is using froggy
-        self.documentation      = settings['documentation']
-        self.auth               = settings['authentication']['type']
-        self.logo               = settings['logo']
-        self.app_root           = froggy.gadgets.normpath(os.path.dirname(os.path.abspath(self.app_package)))
-        if (app is not None): 
-            self.app            = app
+        if (settings is not None):
+            # Set froggy settings from a 'settings' dic.
+            self.name       = settings.get('name', "Demo")
+            self.docs       = settings.get('docs', None) # Path to store the documentation
+            self.auth       = (settings.get('authentication', None))
+            self.logo       = settings.get('logo', True)
+            self.app_root   = None
+            
+            # Enable internal froggy's functions, such as auto generation of documentation using apidoc 
+            # or provide authentication procedures like JSON Web Tokens (JWT).
+            if (self.auth is not None): 
+                self.auth = self.auth.get('type', None)
+            
+            if (self.docs is not None): 
+                self.app_root = froggy.gadgets.normpath(self.docs)
+                self.gen_docs()
 
+            if (self.auth == froggy.authentication.JWTAuth):
+                self.JWT_SECRET_TOKEN       = settings['authentication']['jwt_secret_token']
+                self.JWT_EXPIRATION_SECONDS = settings['authentication']['jwt_expiration_seconds'] 
+                self.auth = froggy.authentication.JWTAuth(self.JWT_SECRET_TOKEN, self.JWT_EXPIRATION_SECONDS)
+            else:
+                self.auth = None
+        else:
+            self.auth = None
+        
         """ 
         print("Logo             =" + str(self.logo))
         print("Name             =" + str(self.name))
@@ -41,16 +57,8 @@ class Framework:
         print("Authentication   =" + str(self.auth))
         print("Root             =" + str(self.app_root))
         """
-        # Enable internal froggy's functions, such as auto generation of documentation using apidoc 
-        # or provide authentication procedures like JSON Web Tokens (JWT).
-        if (self.documentation): self.gen_docs()
-        if (self.auth == froggy.authentication.JWTAuth):
-            self.JWT_SECRET_TOKEN       = settings['authentication']['jwt_secret_token']
-            self.JWT_EXPIRATION_SECONDS = settings['authentication']['jwt_expiration_seconds'] 
-            self.auth = froggy.authentication.JWTAuth(self.JWT_SECRET_TOKEN, self.JWT_EXPIRATION_SECONDS)
-        else:
-            self.auth = None
-
+        if (app is not None): 
+            self.app = app
         # 'Inject' errorHandlers and custom froggy routes into the Flask object 'self.app' 
         self.app.errorhandler(froggy.exceptions.BadRequest)(froggy.exceptions.handle_bad_request)
         self.app.route('/froggy')(self.home)
@@ -125,7 +133,7 @@ class Framework:
         
         # Creates a Response with the JSON representation of data
         # 'You've got red on you.'
-        return(jsonify(res))
+        return make_response(jsonify(res), res['status'])
 
     def home(self):
         """Froggy custom route

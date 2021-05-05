@@ -145,6 +145,49 @@ define({ "api": [
     ]
   },
   {
+    "type": "post",
+    "url": "/cookbook/auth/signup",
+    "title": "User Signup",
+    "name": "signup",
+    "description": "<p>Example of an authentication service using sqlite3 and the froggy framework.</p>",
+    "group": "Authentication",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>Email of the user.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "psw",
+            "description": "<p>Desired password.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -d \"email=frogger@atari.com&psw=123456\" -X POST http://localhost:5000/cookbook/auth/signup",
+        "type": "curl"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "/home/tiagomiguelcs/SynologyDrive/Google Drive/UBI/Projects/froggy/examples/cookbook/cookbook/__init__.py",
+    "groupTitle": "Authentication",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:5000/cookbook/auth/signup"
+      }
+    ]
+  },
+  {
     "type": "get",
     "url": "/cookbook/databases/sqlite3/:statement",
     "title": "Data Manipulation",

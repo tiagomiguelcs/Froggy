@@ -17,3 +17,4 @@ regex==2020.11.13
 six==1.15.0
 tzlocal==2.1
 Werkzeug==1.0.1
+python_bcrypt==0.3.2

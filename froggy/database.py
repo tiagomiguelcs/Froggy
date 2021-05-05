@@ -40,20 +40,12 @@ class Database():
     def dict_factory(self, cursor, row):
         """Convert database results to a list of dictionaries. 
         """
-        # 
         d = {}
         for idx, col in enumerate(cursor.description):
-            # Check if we can jsonify the current object, if not, convert the object to a string.
-            # For example, an object of type bytes can't be, directly, converted using jsonify.
-            try:
-                jsonify(row[idx])
-                d[col[0]] = row[idx]     
-            except Exception as e:
-                d[col[0]] = str(row[idx])    
+            d[col[0]] = row[idx]
         return d
 
-
-class SQL(Database):
+class Query(Database):
     
     def __init__(self, connection, target=None):
         """[summary]
@@ -73,18 +65,60 @@ class SQL(Database):
             An integer that represents the unique value that identifies a row of a table.  
         """
         try:
-            row = (self.select("SELECT MAX(" + id_column + ") as id FROM "+ table))
-            return(int(row[0]["id"])) # Return the last id created on [table]
+            row = (self.__select("SELECT MAX(" + id_column + ") as id FROM "+ table))
+            return(int(row["id"])) # Return the last id created on [table]
         except Exception as e:
             raise BadRequest(path=request.path,message=str(e), error="Database error", operation="Get last id", api="database", status=500)
 
-    def select(self, statement, args=None):
+    def execute(self, statement, args=None):
+        """ Execute an SQL Statement
+        Args:
+            statement (string): The SQL statement to be executed against the database.
+        Raises:
+            BadRequest: Raises an exception if a database related error is catched.
+        """
+        try:
+            name = (statement[0:statement.index(" ")]).lower()
+        except Exception as e:
+            raise BadRequest(path=request.path,message=str(e), error="Please revise the SQL Query", operation="Query Processing", api="database")
+        try:
+            if ("select" in name):
+                return self.__select(statement, args)
+            if ("insert" in name):
+                return self.__insert(statement, args)
+            if ("update" in name):
+                return self.__update(statement, args)
+            if ("delete" in name):
+                return self.__delete(statement, args)
+            if ("create" in name or "alter" in name or 
+                "drop" in name or "truncate" in name):
+                return self.__table_structure(statement)
+        except Exception as e:
+            raise BadRequest(path=request.path,message=str(e), operation="Query Processing", api="database")
+      
+    def __table_structure(self, statement):
+        """ Table Structures - Table Structures related queries
+        Args:
+            statement (string): The SQL statement to be executed against the database.
+        Raises:
+            BadRequest: Raises an exception if a database related error is catched.
+        """
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(statement)
+            self.connection.commit()
+            cursor.close()
+        except Exception as e:
+            raise BadRequest(path=request.path,message=str(e), error="Database error", operation="SELECT", api="database")
+
+    def __select(self, statement, args=None):
         """ Data Manipulation - SELECT
         Args:
             statement (string): The SELECT statement to be executed against the database.
             args (tuple): SQL statement arguments, defaults to None. 
         Returns:
-            A list of dictionaries containing the results of the provided SQL statement.
+            For n results, a list of dictionaries containing the results of the provided SQL statement.
+            For 1 result, a dictionary containing the result of the provided SQL statement.
         Raises:
             BadRequest: Raises an exception if a database related error is catched.
         """
@@ -102,12 +136,14 @@ class SQL(Database):
             
             froggy.gadgets.fprint("SQL statement executed  :" + str(statement))
             froggy.gadgets.fprint("SQL statement arguments :" + str(args))
+            # If there is only one result, lets just return an dic instead of a list of dics
+            if (len(res) == 1): res = res[0]
             # 'You complete me.'
             return(res)
         except Exception as e:
             raise BadRequest(path=request.path,message=str(e), error="Database error", operation="SELECT", api="database")
 
-    def insert(self, statement, args):
+    def __insert(self, statement, args):
         """ Data Manipulation - INSERT
         Args:
             statement (string): The INSERT statement to be executed against the database.
@@ -141,7 +177,7 @@ class SQL(Database):
         except Exception as e:
             raise BadRequest(path=request.path,message=str(e), error="Database error", operation="INSERT", api="database")
 
-    def update(self, statement, args):
+    def __update(self, statement, args):
         """ Data Manipulation - UPDATE
         Args:
             statement (string): The UPDATE statement to be executed against the database.
@@ -161,7 +197,7 @@ class SQL(Database):
         except Exception as e:
             raise BadRequest(path=request.path,message=str(e), error="Database error", operation="UPDATE", api="database")
 
-    def delete(self, statement, args):
+    def __delete(self, statement, args):
         """ Data Manipulation - DELETE
         Args:
             statement (string): The DELETE statement to be executed against the database.

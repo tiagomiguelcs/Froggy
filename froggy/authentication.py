@@ -28,7 +28,7 @@ class Authentication(froggy.framework.Framework):
             True if both passwords are equal, false otherwise.
         """
         if bcrypt.checkpw(user_psw.encode(), db_hashed_psw):
-            # 'This is Sparta!'   
+            # 'This is Sparta!'
             return(True)
         else:
             # 'I'm walking here! I'm walking here!'
@@ -77,7 +77,7 @@ class JWTAuth(Authentication):
             psw (string): Plaintext password inputted by the user (sent through https).
         
         Returns:
-            Returns an user access token or an exception is raised if the current user was not authenticated.
+            Returns an user access token (available in the user dic) or an exception is raised if the current user was not authenticated.
         """
         # Check if the hashed password, available on a database, is the same as the one provided by the user.
         if self.check_password(db_psw, psw):
@@ -102,7 +102,7 @@ class JWTAuth(Authentication):
             # Generate the access token to encode the user data 
             user['exp']     = datetime.utcnow() + timedelta(seconds=int(self.JWT_EXPIRATION_SECONDS))
             user['token']   = (jwt.encode(user, self.JWT_SECRET_TOKEN, algorithm='HS256'))
-    
+            
             # Insert the access token into the auth table
             try:
                 cur.execute("INSERT INTO auth VALUES (?,?,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",[user['token'], email])
