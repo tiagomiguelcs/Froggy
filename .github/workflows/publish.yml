@@ -1,4 +1,4 @@
-name: github pages
+name: Deployment of the Cookbook demo App
 
 on:
   push:
@@ -7,13 +7,18 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    name: Deploy
+    runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./examples/cookbook/docs
-          allow_empty_commit: true
-          enable_jekyll: true
+
+    # Any prerequisite steps
+    - uses: actions/checkout@master
+
+    # Deploy to local repo
+    - name: Deploy
+      uses: s0/git-publish-subdir-action@develop
+      env:
+        REPO: self
+        BRANCH: cookbook
+        FOLDER: ./examples/cookbook
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
