@@ -36,7 +36,7 @@ def hello_world():
 
 ```console
 export FLASK_APP=minimal.py
-flask run &
+flask run
 ```
 
 ## Documentation
