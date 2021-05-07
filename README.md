@@ -44,7 +44,7 @@ flask run
 Soonish. 
 
 # Cookbook
-Several 'recipes' for the implementation of REST-based Flask using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below. 
+Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below. 
 
 ### Using Froggy's Exceptions Handling API
 **<span style="color:#adc03a"> Froggy:frog:</span>** provides an exception handling API that auto returns a response object with details regarding an exception that was raisen.  
@@ -91,7 +91,7 @@ def hello(name):
 ```
 
 ### Using Froggy's Database API
-You can easly modify data and table structures using **<span style="color:#adc03a"> froggy's:frog:</span>** [SQLite3](https://www.sqlite.org/index.html) - [MySQL](https://www.mysql.com/) is also supported - wrapper that takes care of exceptions handling,  cursor handling, and results formating:
+You can easly modify data and table structures using **<span style="color:#adc03a"> froggy's:frog:</span>** [SQLite3](https://www.sqlite.org/index.html) - [MySQL](https://www.mysql.com/) is also supported - wrapper that takes care of exceptions, cursor handling, and results formating:
 ```python
 # sqlite3.py
 import sqlite3, os
