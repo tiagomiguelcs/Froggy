@@ -16,6 +16,7 @@ You can install **<span style="color:#adc03a"> froggy:frog:</span>** with pip3:
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
 pip3 install .
+npm install -g apidoc
 ```
 
 # Quick start

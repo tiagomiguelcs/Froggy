@@ -27,7 +27,7 @@ class Framework:
             # Set froggy settings from a 'settings' dic.
             self.name       = settings.get('name', "Demo")
             self.docs       = settings.get('docs', None) # Path to store the documentation
-            self.auth       = (settings.get('authentication', None))
+            self.auth       = settings.get('authentication', None)
             self.logo       = settings.get('logo', True)
             self.app_root   = None
             
