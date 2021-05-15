@@ -1,3 +1,4 @@
+""""""
 """     _e-e_
       _(-._.-)_
    .-(  `---'  )-. 
@@ -5,7 +6,8 @@
  '-._.'/M\ /M\`._,-
 """
 import os, pkg_resources
-__version__ = pkg_resources.require("froggy")[0].version
+#__version__ = pkg_resources.require("froggy")[0].version
+__version__ = "0.0.1"
 
 # All the modules under the froggy package should be imported here
 from . import framework

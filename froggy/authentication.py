@@ -1,3 +1,4 @@
+""""""
 """     _e-e_
       _(-._.-)_
    .-(  `---'  )-. 
@@ -11,21 +12,19 @@ import sqlite3, os, hashlib, jwt, dateparser, codecs, bcrypt
 import froggy
 
 class Authentication(froggy.framework.Framework):
-    """The main Authentication class
-
-    This parent should "be a parent" of several authentication methods (such as, authentication based on JWT).
-    """
+    """The main Authentication class. This class is parent of several sub authentication classes  :class:`froggy.Authentication.JWTAuth`."""
     def __init__(self):
         pass
     
     def check_password(self, db_hashed_psw, user_psw):
         """Check if a hashed password (from a database) is equal to the one provided by a user.
 
-        Args:
-            db_hashed_psw (string): The hashed password.
-            user_psw (string): The plaintext user inputted password.
-        Returns:
-            True if both passwords are equal, false otherwise.
+        :param db_hashed_psw: The hashed password.
+        :type db_hashed_psw: bytes
+        :param user_psw: The plaintext user inputted password.
+        :type user_psw: str
+        :return: True if both passwords are equal, false otherwise.
+        :rtype: bool
         """
         if bcrypt.checkpw(user_psw.encode(), db_hashed_psw):
             # 'This is Sparta!'
@@ -37,12 +36,10 @@ class Authentication(froggy.framework.Framework):
     def hash_password(self, psw):
         """ Hash a password with some 'salt' using bcrypt
 
-        Args:
-            psw (string): The password to hash.
-        Returns:
-            [type]: The hashed password that includes the 'salt'
-        Examples:
-            froggy.gadgets.hash_password("123")
+        :param psw: The password to hash.
+        :type psw: str
+        :return: The hashed password that includes the 'salt'.
+        :rtype: str
         """
         salt = bcrypt.gensalt()
         hashed_psw = bcrypt.hashpw(psw.encode(), salt)
@@ -50,35 +47,34 @@ class Authentication(froggy.framework.Framework):
 
 
 class JWTAuth(Authentication):
-    """ JSON Web Tokens
-
-        Authentication and authorization implementations following the workflow defined 
-        for JSON Web Tokens (JWT), see https://jwt.io/introduction for more details.
-    """
-    
+    """ Authentication class based on JWT. The authentication and authorization implementations follows the workflow defined for JSON Web Tokens (JWT), see https://jwt.io/introduction for more details.
+    """  
     def __init__(self, JWT_SECRET_TOKEN, JWT_EXPIRATION_SECONDS):
-        """JWTAuth Constructor
+        """JWTAuth Class Constructor.
 
-        Args:
-            JWT_SECRET_TOKEN (string): JWT Secret Token.
-            JWT_EXPIRATION_SECONDS (int): JWT expiration time in seconds.
+        :param JWT_SECRET_TOKEN: The JWT Secret Token.
+        :type JWT_SECRET_TOKEN: str
+        :param JWT_EXPIRATION_SECONDS: JWT expiration time in seconds.
+        :type JWT_EXPIRATION_SECONDS: int
         """
         super().__init__()
         self.JWT_EXPIRATION_SECONDS = JWT_EXPIRATION_SECONDS
         self.JWT_SECRET_TOKEN       = JWT_SECRET_TOKEN
 
     def authenticate(self, user, email, db_psw, psw):
-        """ Authenticates the user by comparing two hashed and dynamically salted passwords.
+        """Authenticates the user by comparing two hashed and dynamically salted passwords. The access token will be store on the provide user dic.
 
-        Args:
-            user (dictionary): The user is represented as a Python dictionary and it will be included in the authorization access token.
-            email (string): User email.
-            db_psw (string): Database password (salted and hashed).
-            psw (string): Plaintext password inputted by the user (sent through https).
-        
-        Returns:
-            Returns an user access token (available in the user dic) or an exception is raised if the current user was not authenticated.
-        """
+        :param user: The user is represented as a Python dictionary and it will be included in the authorization access token.
+        :type user: dict
+        :param email: User email.
+        :type email: str
+        :param db_psw: Database password (salted and hashed).
+        :type db_psw: str
+        :param psw:  Plaintext password inputted by the user.
+        :type psw: str
+        :raises froggy.exceptions.BadRequest: Exception on Authentication failure or User already Authenticated.
+        """        
+
         # Check if the hashed password, available on a database, is the same as the one provided by the user.
         if self.check_password(db_psw, psw):
             con = sqlite3.connect(".froggy.db")
@@ -120,11 +116,11 @@ class JWTAuth(Authentication):
     def hop_out(self, request):
         """Log out using the authorization access token provided by the user in the header of the request.
 
-        Args:
-            request: The current request object.
-        
-        Returns:
-            Returns a json response object.
+        :param request: The current request object.
+        :type request: Request Object
+        :raises froggy.exceptions.BadRequest: For database related errors.
+        :return: Returns a json response object.
+        :rtype: Response Object
         """
         con     = sqlite3.connect(".froggy.db")
         cur     = con.cursor()
@@ -143,13 +139,13 @@ class JWTAuth(Authentication):
         return self.response()
 
     def get_auth_token(self, request):
-        """Get the  authorization token from the request headers.
+        """Retrieve the authorization token from the request header.
 
-        Args:
-            request (Request): The current request object.
-
-        Returns:
-            Returns the authorization access token.
+        :param request: The current request object.
+        :type request: Request object
+        :raises froggy.exceptions.BadRequest: When an authorization token was not provided.
+        :return: Returns the authorization access token.
+        :rtype: str
         """
         headers = dict(request.headers)
         if 'Authorization' not in headers: 
@@ -161,11 +157,10 @@ class JWTAuth(Authentication):
     def expired_or_invalid(self, token):
         """Check if a token is still valid (expired?).
 
-        Args:
-            token: The authorization access token of the user.
-        
-        Returns:
-            True if the token is expired, false otherwise.
+        :param token: The authorization access token of the user.
+        :type token: str
+        :return: True if the token is expired, false otherwise.
+        :rtype: bool
         """
         # Let's just use jwt.decode to verify if the token is expired or invalid
         try:
@@ -179,11 +174,13 @@ class JWTAuth(Authentication):
 
     def in_group(self, request, allowed_groups):
         """Check if user is in a group allowed to access the target resource.
-        Args:
-            request (Request): The current request object.
-            allowed_groups (list of int): The list of groups (IDs) that are allowed to access a target resource.
-        Returns:
-            bool: True if the user belongs to the set of groups allowed to access a target resource, false otherwise.
+
+        :param request: The current request object.
+        :type request: Request object
+        :param allowed_groups: The list of groups (IDs) that are allowed to access a target resource.
+        :type allowed_groups: list
+        :return: True if the user belongs to the set of groups allowed to access a target resource, false otherwise.
+        :rtype: bool
         """
         token = self.get_auth_token(request)
         user = jwt.decode(token, self.JWT_SECRET_TOKEN, algorithms=['HS256'])
@@ -197,15 +194,12 @@ class JWTAuth(Authentication):
         return False
 
     def authorized(self, request):
-        """Check if the user is authenticated, authorized to access a service. 
-        
-        The authorization procedure is accomplished by checking if the authorization token of the user is available on the database.
+        """Check if the user is authenticated, authorized to access a service. The authorization procedure is accomplished by checking if the authorization token of the user is available on the database.
 
-        Args:
-            request (Request): The current request object.
-        
-        Returns:
-            bool: True if the user is authorized to access a resource, false otherwise.
+        :param request: The request object.
+        :type request: Request object
+        :return: Returns true if the user is authorized to access a resource, false otherwise.
+        :rtype: bool
         """
         # Check if an authentication token is available on the request header
         token = self.get_auth_token(request)

@@ -1,3 +1,4 @@
+""""""
 """     _e-e_
       _(-._.-)_
    .-(  `---'  )-. 
@@ -12,17 +13,16 @@ import froggy, os, functools, subprocess, shlex
 TEMPLATE_FOLDER = os.path.normpath(os.path.dirname(os.path.abspath(__file__))) + "/templates/"
         
 class Framework:
-    """Froggy's main class
     
-    On initialization it will load Froggy settings along with the Flask application object
+    """Froggy's main class. On initialization it will load Froggy settings along with the Flask application object.
+    
+    :param app: The Flask application object.
+    :type app: Flask
+    :param settings: Froggy settings, defaults to None.
+    :type settings: dic, optional
     """
+        
     def __init__(self, app, settings=None):
-        """[summary]
-
-        Args:
-            app (Flask): The Flask application object.
-            settings (dictionary): A python dictionary where froggy settings should be specified.
-        """
         if (settings is not None):
             # Set froggy settings from a 'settings' dic.
             self.name       = settings.get('name', "Demo")
@@ -38,7 +38,7 @@ class Framework:
             
             if (self.docs is not None): 
                 self.app_root = froggy.gadgets.normpath(self.docs)
-                self.gen_docs()
+                self.__gen_docs()
 
             if (self.auth == froggy.authentication.JWTAuth):
                 self.JWT_SECRET_TOKEN       = settings['authentication']['jwt_secret_token']
@@ -63,11 +63,8 @@ class Framework:
         self.app.errorhandler(froggy.exceptions.BadRequest)(froggy.exceptions.handle_bad_request)
         self.app.route('/froggy')(self.home)
 
-    def gen_docs(self):
-        """[summary] Documentation Generator
-
-        If enabled, documentation can be created for the services implemented using froggy using a nice and handy tool called apidoc. 
-        Each service should be documented following the syntax documented in the usage section detailed in https://github.com/apidoc/apidoc.
+    def __gen_docs(self):
+        """ If enabled on :attr:`settings` the documentation can be created for those services implemented using froggy. Each service should be documented following the syntax documented in the usage section detailed in https://github.com/apidoc/apidoc.
         """
         docs_dir = os.path.join(self.app_root, "docs")
         try:
@@ -77,13 +74,11 @@ class Framework:
         os.system('apidoc -i '+ self.app_root +' -o ' + docs_dir)
  
     def frogify(self, *route_args, **route_kwargs):
-        """Custom froggy decorator that wraps the flask route decorator plus.
-        
-        some other relevant froggy functions (e.g., authorization).
+        """Custom froggy decorator that wraps the flask route decorator plus froggy specific features, similar to `@app.route` from :class:`Flask`.
 
-        Args:
-            route_args: Non-keywords argumentos (e.g. 'A', 'B', ...)
-            route_kwargs: Keyword Arguments (e.g. first='A', second='B', ...)
+        :param route_args: The URL rule as string
+        :param route_kwargs: the options to be forwarded to the underlying Rule object.
+        :raises froggy.exceptions.BadRequest: Raises exception if a user is not authorized to access a target resource.
         """
         # Pop out all the keys that are part of the froggy configuration environment
         # leaving only those that are for the route decorator. 
@@ -116,15 +111,13 @@ class Framework:
         return outer
 
     def response(self, data=None, **kwargs):
-        """Creates a JSON response object built around the data python dictionary.
-            
-        Args:
-            data (dictionary): The Python dictionary containing the data for the JSON response object.
-        
-        Returns:
-            JSON response object.
-        """
-        
+        """Creates a JSON response object built around a python dic.
+
+        :param data: Data to be parsed into a JSON response object, defaults to None.
+        :type data: dic, optional
+        :return: JSON response object.
+        :rtype: Response
+        """        
         res = {}
         res["froggy"] = froggy.__version__
         res["status"] = kwargs.get("status", 200)
@@ -135,9 +128,11 @@ class Framework:
         # 'You've got red on you.'
         return make_response(jsonify(res), res['status'])
 
-    def home(self):
-        """Froggy custom route
-        This function renders Froggy's landpage.
+    def home(self):     
+        """Renders Froggy's landpage.
+        
+        :return: A static HTML page as a string.
+        :rtype: str
         """
         with open(os.path.join(TEMPLATE_FOLDER, "pond.html"), 'r') as file:
             data = file.read()

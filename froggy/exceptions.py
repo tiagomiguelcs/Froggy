@@ -1,3 +1,4 @@
+""""""
 """     _e-e_
       _(-._.-)_
    .-(  `---'  )-. 
@@ -22,14 +23,16 @@ class BadRequest(froggy.framework.Framework, Exception):
 
 # @froggy.app.errorhandler(froggy.exceptions.BadRequest)
 def handle_bad_request(error):
-    """ Catch BadRequest exception globally, serialize into JSON with the json_response() function.
+    """Catch BadRequest exception globally, serialize into JSON with the :meth:`flask_json.json_response()` helper function.
 
-     Args:
-        error(BadRequest): Python dictionary that should include the following key:value pairs:
+    :param error: A dictionary that should include the following key:value pairs:
             [status]     - HTTP status codes (e.g., 403)
             [error]      - A short description of the error
             [message]    - A description of the error
             path         - Service endpoint (use, request.path)
+    :type error: dic
+    :return: A Response object
+    :rtype: Response
     """
     data={"timestamp" : datetime.utcnow().strftime('%d/%m/%y %H:%M:%S,%f')[:-3]}
     # Create Python Dictionary to hold the data related to the error.
