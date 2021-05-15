@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Welcome to Froggy’s documentation! &mdash; Froggy 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Froggy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to Froggy’s documentation!</a></li>
+<li><a class="reference internal" href="#module-froggy.framework">Main Module</a></li>
+<li><a class="reference internal" href="#module-froggy.database">Database Module</a></li>
+<li><a class="reference internal" href="#module-froggy.authentication">Authentication Module</a></li>
+<li><a class="reference internal" href="#exceptions-handling-module">Exceptions Handling Module</a></li>
+<li><a class="reference internal" href="#module-froggy.gadgets">Froggy’s Gadgets</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Froggy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Welcome to Froggy’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-froggy-s-documentation">
+<h1>Welcome to Froggy’s documentation!<a class="headerlink" href="#welcome-to-froggy-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-froggy.framework">
+<span id="main-module"></span><h1>Main Module<a class="headerlink" href="#module-froggy.framework" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.framework.Framework">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.framework.</span></span><span class="sig-name descname"><span class="pre">Framework</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/framework.html#Framework"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.framework.Framework" title="Permalink to this definition">¶</a></dt>
+<dd><p>Froggy’s main class. On initialization it will load Froggy settings along with the Flask application object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<em>Flask</em>) – The Flask application object.</p></li>
+<li><p><strong>settings</strong> (<em>dic</em><em>, </em><em>optional</em>) – Froggy settings, defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.framework.Framework.frogify">
+<span class="sig-name descname"><span class="pre">frogify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">route_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">route_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/framework.html#Framework.frogify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.framework.Framework.frogify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom froggy decorator that wraps the flask route decorator plus froggy specific features, similar to <cite>&#64;app.route</cite> from <code class="xref py py-class docutils literal notranslate"><span class="pre">Flask</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_args</strong> – The URL rule as string</p></li>
+<li><p><strong>route_kwargs</strong> – the options to be forwarded to the underlying Rule object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>froggy.exceptions.BadRequest</strong></a> – Raises exception if a user is not authorized to access a target resource.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.framework.Framework.home">
+<span class="sig-name descname"><span class="pre">home</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/framework.html#Framework.home"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.framework.Framework.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders Froggy’s landpage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A static HTML page as a string.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.framework.Framework.response">
+<span class="sig-name descname"><span class="pre">response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/framework.html#Framework.response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.framework.Framework.response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a JSON response object built around a python dic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dic</em><em>, </em><em>optional</em>) – Data to be parsed into a JSON response object, defaults to None.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON response object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-froggy.database">
+<span id="database-module"></span><h1>Database Module<a class="headerlink" href="#module-froggy.database" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.database.Database">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.database.</span></span><span class="sig-name descname"><span class="pre">Database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/database.html#Database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Database" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Database class represents a database of type <a class="reference internal" href="#froggy.database.Type" title="froggy.database.Type"><code class="xref py py-class docutils literal notranslate"><span class="pre">froggy.database.Type</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.database.Database.dict_factory">
+<span class="sig-name descname"><span class="pre">dict_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/database.html#Database.dict_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Database.dict_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert database results to a list of dictionaries.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.database.Query">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.database.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/database.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Query" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Query class represents a query object to be executed on a <a class="reference internal" href="#froggy.database.Database" title="froggy.database.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">froggy.database.Database</span></code></a> object.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.database.Query.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/database.html#Query.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Query.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute an SQL Statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>statement</strong> (<em>str</em>) – The SQL statement to be executed against the database.</p></li>
+<li><p><strong>args</strong> (<em>list</em>) – The list of arguments for the SQL statement.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises a database error if something goes wrong.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>If the SQL statement is a SELECT then it returns a list of results; If the SQL statement is an INSERT then the id of the new entry is returned.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list or int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.database.Query.get_last_id">
+<span class="sig-name descname"><span class="pre">get_last_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/database.html#Query.get_last_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Query.get_last_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the last id (primary key value) of a table. This id is usually sequencial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>str</em>) – Name of the table you wish to get the last entry id (primary key value).</p></li>
+<li><p><strong>id_column</strong> (<em>str</em>) – Name of the primary key column.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises a database error if something goes wrong.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An integer that represents the unique value that identifies a row of a table.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.database.Type">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.database.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="_modules/froggy/database.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Database ‘flavors’.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.database.Type.Mysql">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Mysql</span></span><a class="reference internal" href="_modules/froggy/database.html#Type.Mysql"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Type.Mysql" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.database.Type.Sqlite3">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Sqlite3</span></span><a class="reference internal" href="_modules/froggy/database.html#Type.Sqlite3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.database.Type.Sqlite3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-froggy.authentication">
+<span id="authentication-module"></span><h1>Authentication Module<a class="headerlink" href="#module-froggy.authentication" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.authentication.Authentication">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.authentication.</span></span><span class="sig-name descname"><span class="pre">Authentication</span></span><a class="reference internal" href="_modules/froggy/authentication.html#Authentication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.Authentication" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main Authentication class. This class is parent of several sub authentication classes  <code class="xref py py-class docutils literal notranslate"><span class="pre">froggy.Authentication.JWTAuth</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.Authentication.check_password">
+<span class="sig-name descname"><span class="pre">check_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_hashed_psw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_psw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#Authentication.check_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.Authentication.check_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a hashed password (from a database) is equal to the one provided by a user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db_hashed_psw</strong> (<em>bytes</em>) – The hashed password.</p></li>
+<li><p><strong>user_psw</strong> (<em>str</em>) – The plaintext user inputted password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if both passwords are equal, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.Authentication.hash_password">
+<span class="sig-name descname"><span class="pre">hash_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#Authentication.hash_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.Authentication.hash_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hash a password with some ‘salt’ using bcrypt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>psw</strong> (<em>str</em>) – The password to hash.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The hashed password that includes the ‘salt’.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.authentication.</span></span><span class="sig-name descname"><span class="pre">JWTAuth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">JWT_SECRET_TOKEN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">JWT_EXPIRATION_SECONDS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authentication class based on JWT. The authentication and authorization implementations follows the workflow defined for JSON Web Tokens (JWT), see <a class="reference external" href="https://jwt.io/introduction">https://jwt.io/introduction</a> for more details.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.authenticate">
+<span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_psw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticates the user by comparing two hashed and dynamically salted passwords. The access token will be store on the provide user dic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user</strong> (<em>dict</em>) – The user is represented as a Python dictionary and it will be included in the authorization access token.</p></li>
+<li><p><strong>email</strong> (<em>str</em>) – User email.</p></li>
+<li><p><strong>db_psw</strong> (<em>str</em>) – Database password (salted and hashed).</p></li>
+<li><p><strong>psw</strong> (<em>str</em>) – Plaintext password inputted by the user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>froggy.exceptions.BadRequest</strong></a> – Exception on Authentication failure or User already Authenticated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.authorized">
+<span class="sig-name descname"><span class="pre">authorized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.authorized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.authorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the user is authenticated, authorized to access a service. The authorization procedure is accomplished by checking if the authorization token of the user is available on the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request object</em>) – The request object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns true if the user is authorized to access a resource, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.expired_or_invalid">
+<span class="sig-name descname"><span class="pre">expired_or_invalid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.expired_or_invalid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.expired_or_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a token is still valid (expired?).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – The authorization access token of the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the token is expired, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.get_auth_token">
+<span class="sig-name descname"><span class="pre">get_auth_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.get_auth_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.get_auth_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the authorization token from the request header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request object</em>) – The current request object.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>froggy.exceptions.BadRequest</strong></a> – When an authorization token was not provided.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns the authorization access token.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.hop_out">
+<span class="sig-name descname"><span class="pre">hop_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.hop_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.hop_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log out using the authorization access token provided by the user in the header of the request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request Object</em>) – The current request object.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>froggy.exceptions.BadRequest</strong></a> – For database related errors.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns a json response object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Response Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.authentication.JWTAuth.in_group">
+<span class="sig-name descname"><span class="pre">in_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_groups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/authentication.html#JWTAuth.in_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.authentication.JWTAuth.in_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if user is in a group allowed to access the target resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request object</em>) – The current request object.</p></li>
+<li><p><strong>allowed_groups</strong> (<em>list</em>) – The list of groups (IDs) that are allowed to access a target resource.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the user belongs to the set of groups allowed to access a target resource, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions-handling-module">
+<h1>Exceptions Handling Module<a class="headerlink" href="#exceptions-handling-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-froggy.exceptions"></span><dl class="py exception">
+<dt class="sig sig-object py" id="froggy.exceptions.BadRequest">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.exceptions.</span></span><span class="sig-name descname"><span class="pre">BadRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/exceptions.html#BadRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.exceptions.BadRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>BadRequest class, the name says it all.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="froggy.exceptions.handle_bad_request">
+<span class="sig-prename descclassname"><span class="pre">froggy.exceptions.</span></span><span class="sig-name descname"><span class="pre">handle_bad_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/exceptions.html#handle_bad_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.exceptions.handle_bad_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Catch BadRequest exception globally, serialize into JSON with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">flask_json.json_response()</span></code> helper function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>error</strong> (<em>dic</em>) – A dictionary that should include the following key:value pairs:
+[status]     - HTTP status codes (e.g., 403)
+[error]      - A short description of the error
+[message]    - A description of the error
+path         - Service endpoint (use, request.path)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Response object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-froggy.gadgets">
+<span id="froggy-s-gadgets"></span><h1>Froggy’s Gadgets<a class="headerlink" href="#module-froggy.gadgets" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="froggy.gadgets.exists">
+<span class="sig-prename descclassname"><span class="pre">froggy.gadgets.</span></span><span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/gadgets.html#exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.gadgets.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a list of keys exists in an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_subject</strong> (<em>dic</em>) – A dictionary object.</p></li>
+<li><p><strong>keys</strong> (<em>list of str</em>) – The list of keys to be checked against the ‘test_subject’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the list of keys is available, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="froggy.gadgets.fprint">
+<span class="sig-prename descclassname"><span class="pre">froggy.gadgets.</span></span><span class="sig-name descname"><span class="pre">fprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/gadgets.html#fprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.gadgets.fprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>The worldly know froggy custom print function (not really!).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – Message to display using the standard print function.</p></li>
+<li><p><strong>message</strong> – Options</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="froggy.gadgets.normpath">
+<span class="sig-prename descclassname"><span class="pre">froggy.gadgets.</span></span><span class="sig-name descname"><span class="pre">normpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/gadgets.html#normpath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.gadgets.normpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to normalize a path. Expand the os.path.normpath to wrap white-spaced words with apostrophes (e.g. /Google Drive -&gt; /’Google Drive’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to normalize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns a normalized path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, tiagomiguelcs.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

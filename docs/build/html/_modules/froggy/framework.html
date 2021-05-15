@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>froggy.framework &mdash; Froggy 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Froggy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Froggy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>froggy.framework</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for froggy.framework</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;     _e-e_</span>
+<span class="sd">      _(-._.-)_</span>
+<span class="sd">   .-(  `---&#39;  )-. </span>
+<span class="sd">  __\ \\\___/// /__</span>
+<span class="sd"> &#39;-._.&#39;/M\ /M\`._,-</span>
+<span class="sd">    Froggy&#39;s Home</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">make_response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">SafeConfigParser</span>
+<span class="kn">import</span> <span class="nn">froggy</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">functools</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">shlex</span>
+
+<span class="n">TEMPLATE_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;/templates/&quot;</span>
+        
+<div class="viewcode-block" id="Framework"><a class="viewcode-back" href="../../index.html#froggy.framework.Framework">[docs]</a><span class="k">class</span> <span class="nc">Framework</span><span class="p">:</span>
+    
+    <span class="sd">&quot;&quot;&quot;Froggy&#39;s main class. On initialization it will load Froggy settings along with the Flask application object.</span>
+<span class="sd">    </span>
+<span class="sd">    :param app: The Flask application object.</span>
+<span class="sd">    :type app: Flask</span>
+<span class="sd">    :param settings: Froggy settings, defaults to None.</span>
+<span class="sd">    :type settings: dic, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># Set froggy settings from a &#39;settings&#39; dic.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>       <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s2">&quot;Demo&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs</span>       <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="c1"># Path to store the documentation</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auth</span>       <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;authentication&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logo</span>       <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;logo&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">app_root</span>   <span class="o">=</span> <span class="kc">None</span>
+            
+            <span class="c1"># Enable internal froggy&#39;s functions, such as auto generation of documentation using apidoc </span>
+            <span class="c1"># or provide authentication procedures like JSON Web Tokens (JWT).</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">app_root</span> <span class="o">=</span> <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__gen_docs</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">==</span> <span class="n">froggy</span><span class="o">.</span><span class="n">authentication</span><span class="o">.</span><span class="n">JWTAuth</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">JWT_SECRET_TOKEN</span>       <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;authentication&#39;</span><span class="p">][</span><span class="s1">&#39;jwt_secret_token&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">JWT_EXPIRATION_SECONDS</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;authentication&#39;</span><span class="p">][</span><span class="s1">&#39;jwt_expiration_seconds&#39;</span><span class="p">]</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">froggy</span><span class="o">.</span><span class="n">authentication</span><span class="o">.</span><span class="n">JWTAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">JWT_SECRET_TOKEN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">JWT_EXPIRATION_SECONDS</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        print(&quot;Logo             =&quot; + str(self.logo))</span>
+<span class="sd">        print(&quot;Name             =&quot; + str(self.name))</span>
+<span class="sd">        print(&quot;Package          =&quot; + str(self.app_package))</span>
+<span class="sd">        print(&quot;Documentation    =&quot; + str(self.documentation))</span>
+<span class="sd">        print(&quot;Authentication   =&quot; + str(self.auth))</span>
+<span class="sd">        print(&quot;Root             =&quot; + str(self.app_root))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">app</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
+        <span class="c1"># &#39;Inject&#39; errorHandlers and custom froggy routes into the Flask object &#39;self.app&#39; </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="n">froggy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span><span class="p">)(</span><span class="n">froggy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">handle_bad_request</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/froggy&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__gen_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; If enabled on :attr:`settings` the documentation can be created for those services implemented using froggy. Each service should be documented following the syntax documented in the usage section detailed in https://github.com/apidoc/apidoc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">docs_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app_root</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">docs_dir</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> 
+            <span class="k">pass</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;apidoc -i &#39;</span><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">app_root</span> <span class="o">+</span><span class="s1">&#39; -o &#39;</span> <span class="o">+</span> <span class="n">docs_dir</span><span class="p">)</span>
+ 
+<div class="viewcode-block" id="Framework.frogify"><a class="viewcode-back" href="../../index.html#froggy.framework.Framework.frogify">[docs]</a>    <span class="k">def</span> <span class="nf">frogify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">route_args</span><span class="p">,</span> <span class="o">**</span><span class="n">route_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Custom froggy decorator that wraps the flask route decorator plus froggy specific features, similar to `@app.route` from :class:`Flask`.</span>
+
+<span class="sd">        :param route_args: The URL rule as string</span>
+<span class="sd">        :param route_kwargs: the options to be forwarded to the underlying Rule object.</span>
+<span class="sd">        :raises froggy.exceptions.BadRequest: Raises exception if a user is not authorized to access a target resource.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Pop out all the keys that are part of the froggy configuration environment</span>
+        <span class="c1"># leaving only those that are for the route decorator. </span>
+        <span class="n">restricted</span> <span class="o">=</span> <span class="n">route_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">groups</span>   <span class="o">=</span> <span class="n">route_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;groups&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># fprint(&quot;Selected groups =&quot;+str(groups))</span>
+        <span class="k">def</span> <span class="nf">outer</span><span class="p">(</span><span class="n">action_function</span><span class="p">):</span>
+            <span class="c1"># Let&#39;s call the route decorator to map the request route</span>
+            <span class="nd">@self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="o">*</span><span class="n">route_args</span><span class="p">,</span> <span class="o">**</span><span class="n">route_kwargs</span><span class="p">)</span>
+            <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">action_function</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">f_args</span><span class="p">,</span> <span class="o">**</span><span class="n">f_kwargs</span><span class="p">):</span>
+                <span class="c1"># Check if the current frog has permissions to access this resource</span>
+                <span class="k">if</span> <span class="n">restricted</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">authorized</span><span class="p">(</span><span class="n">request</span><span class="p">)):</span> 
+                        <span class="c1"># Authentication token MIA raise bad request</span>
+                        <span class="k">raise</span> <span class="n">froggy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;User not authenticated, token invalid or expired.&quot;</span><span class="p">,</span><span class="n">error</span><span class="o">=</span><span class="s2">&quot;Authorization Failure&quot;</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="mi">403</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">in_group</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">groups</span><span class="p">)):</span>
+                            <span class="c1"># User not part of the group allowed to access the target resource</span>
+                            <span class="k">raise</span> <span class="n">froggy</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;The group of the user has no access permissions&quot;</span><span class="p">,</span><span class="n">error</span><span class="o">=</span><span class="s2">&quot;Authorization Failure&quot;</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="mi">403</span><span class="p">)</span>
+
+                <span class="c1">#print(&quot;f_args=&quot;+str(f_args) + &quot;, size=&quot;+str(len(f_args)))</span>
+                <span class="c1">#print(&quot;f_kwargs=&quot;+str(f_kwargs) + &quot;size=&quot; + str(len(f_kwargs)))</span>
+                <span class="c1">#print(&quot;action_function=&quot; + str(action_function))</span>
+                <span class="c1"># &#39;Ogres are like onions.&#39;</span>
+                <span class="k">return</span> <span class="n">action_function</span><span class="p">(</span><span class="o">*</span><span class="n">f_args</span><span class="p">,</span> <span class="o">**</span><span class="n">f_kwargs</span><span class="p">)</span>
+            <span class="c1"># I don&#39;t have friends. I got family&#39;</span>
+            <span class="k">return</span> <span class="n">inner</span>
+            <span class="c1"># &#39;Dude, where&#39;s my car?&#39;</span>
+        <span class="k">return</span> <span class="n">outer</span></div>
+
+<div class="viewcode-block" id="Framework.response"><a class="viewcode-back" href="../../index.html#froggy.framework.Framework.response">[docs]</a>    <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a JSON response object built around a python dic.</span>
+
+<span class="sd">        :param data: Data to be parsed into a JSON response object, defaults to None.</span>
+<span class="sd">        :type data: dic, optional</span>
+<span class="sd">        :return: JSON response object.</span>
+<span class="sd">        :rtype: Response</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">res</span><span class="p">[</span><span class="s2">&quot;froggy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">froggy</span><span class="o">.</span><span class="n">__version__</span>
+        <span class="n">res</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">res</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        
+        <span class="c1"># Creates a Response with the JSON representation of data</span>
+        <span class="c1"># &#39;You&#39;ve got red on you.&#39;</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="Framework.home"><a class="viewcode-back" href="../../index.html#froggy.framework.Framework.home">[docs]</a>    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     
+        <span class="sd">&quot;&quot;&quot;Renders Froggy&#39;s landpage.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A static HTML page as a string.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">TEMPLATE_FOLDER</span><span class="p">,</span> <span class="s2">&quot;pond.html&quot;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="c1"># &#39;I am Groot.&#39;</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, tiagomiguelcs.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
