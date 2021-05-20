@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>froggy.database &mdash; Froggy 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Froggy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Froggy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>froggy.database</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for froggy.database</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;     _e-e_</span>
+<span class="sd">      _(-._.-)_</span>
+<span class="sd">   .-(  `---&#39;  )-. </span>
+<span class="sd">  __\ \\\___/// /__</span>
+<span class="sd"> &#39;-._.&#39;/M\ /M\`._,-</span>
+<span class="sd"> Froggy&#39;s database API</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">import</span> <span class="nn">froggy</span><span class="o">,</span> <span class="nn">sqlite3</span><span class="o">,</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">froggy.exceptions</span> <span class="kn">import</span> <span class="n">BadRequest</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span> 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<div class="viewcode-block" id="Type"><a class="viewcode-back" href="../../index.html#froggy.database.Type">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Type</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Database &#39;flavors&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Type.Mysql"><a class="viewcode-back" href="../../index.html#froggy.database.Type.Mysql">[docs]</a>    <span class="nd">@dataclass</span> 
+    <span class="k">class</span> <span class="nc">Mysql</span><span class="p">:</span> <span class="k">pass</span></div>
+<div class="viewcode-block" id="Type.Sqlite3"><a class="viewcode-back" href="../../index.html#froggy.database.Type.Sqlite3">[docs]</a>    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">Sqlite3</span><span class="p">:</span> <span class="k">pass</span></div></div>
+
+<div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../index.html#froggy.database.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The Database class represents a database of type :class:`froggy.database.Type`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The Database class constructor.</span>
+
+<span class="sd">        :param connection: Database connection object</span>
+<span class="sd">        :type connection: Connection</span>
+<span class="sd">        :param target: The relational database management system to be used, defaults to None</span>
+<span class="sd">        :type target: Type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set the database type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">connection</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="o">==</span> <span class="n">Type</span><span class="o">.</span><span class="n">Sqlite3</span><span class="p">:</span>
+            <span class="c1">#self.connection.row_factory = sqlite3.Row # for row[&#39;id&#39;] result access.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict_factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">target</span>
+
+<div class="viewcode-block" id="Database.dict_factory"><a class="viewcode-back" href="../../index.html#froggy.database.Database.dict_factory">[docs]</a>    <span class="k">def</span> <span class="nf">dict_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert database results to a list of dictionaries. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">):</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">d</span></div></div>
+
+<div class="viewcode-block" id="Query"><a class="viewcode-back" href="../../index.html#froggy.database.Query">[docs]</a><span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">Database</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Query class represents a query object to be executed on a :class:`froggy.database.Database` object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The Query class constructor.</span>
+
+<span class="sd">        :param connection: Database connection object (e.g.  conn = sqlite3.connect(&#39;cookbook.db&#39;)).</span>
+<span class="sd">        :type connection: Connection</span>
+<span class="sd">        :param target: The relational database management system to be used, defaults to None</span>
+<span class="sd">        :type target: Type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Query.get_last_id"><a class="viewcode-back" href="../../index.html#froggy.database.Query.get_last_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_last_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">id_column</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the last id (primary key value) of a table. This id is usually sequencial.</span>
+
+<span class="sd">        :param table: Name of the table you wish to get the last entry id (primary key value).</span>
+<span class="sd">        :type table: str</span>
+<span class="sd">        :param id_column:  Name of the primary key column.</span>
+<span class="sd">        :type id_column: str</span>
+<span class="sd">        :raises BadRequest: Raises a database error if something goes wrong.</span>
+<span class="sd">        :return: An integer that represents the unique value that identifies a row of a table.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__select</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(&quot;</span> <span class="o">+</span> <span class="n">id_column</span> <span class="o">+</span> <span class="s2">&quot;) as id FROM &quot;</span><span class="o">+</span> <span class="n">table</span><span class="p">))</span>
+            <span class="k">return</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]))</span> <span class="c1"># Return the last id created on [table]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;Get last id&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Query.execute"><a class="viewcode-back" href="../../index.html#froggy.database.Query.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute an SQL Statement</span>
+
+<span class="sd">        :param statement: The SQL statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :param args: The list of arguments for the SQL statement.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :raises BadRequest: Raises a database error if something goes wrong.</span>
+<span class="sd">        :return: If the SQL statement is a SELECT then it returns a list of results; If the SQL statement is an INSERT then the id of the new entry is returned.</span>
+<span class="sd">        :rtype: list or int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">statement</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">statement</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Please revise the SQL Query&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;Query Processing&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;select&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__select</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;insert&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__insert</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;update&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__update</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;delete&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__delete</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;create&quot;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;alter&quot;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">or</span> 
+                <span class="s2">&quot;drop&quot;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;truncate&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__table_structure</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;Query Processing&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span></div>
+      
+    <span class="k">def</span> <span class="nf">__table_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Table Structures - Table Structures related queries</span>
+
+<span class="sd">        :param statement: The SQL statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :raises BadRequest: Raises an exception if a database related error is catched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;SELECT&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data Manipulation - SELECT</span>
+
+<span class="sd">        :param statement: The SELECT statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :param args: SQL statement arguments, defaults to None.</span>
+<span class="sd">        :type args: list, optional</span>
+<span class="sd">        :raises BadRequest: Raises an exception if a database related error is catched.</span>
+<span class="sd">        :return: For n&gt;1 results, returns a list of dics containing the results of the provided SQL statement. Otherwise, returns a dic containing the result of the provided SQL statement.</span>
+<span class="sd">        :rtype: list of dics or dic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Returns a list of dics as the result of a sql statement</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="c1"># Execute the SQL Select Statement.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+
+            <span class="n">res</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement executed  :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement arguments :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+            <span class="c1"># If there is only one result, lets just return an dic instead of a list of dics</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span> <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># &#39;You complete me.&#39;</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;SELECT&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data Manipulation - INSERT</span>
+
+<span class="sd">        :param statement: The INSERT statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :param args: SQL statement arguments.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :raises BadRequest: Raises an exception if a database related error is catched.</span>
+<span class="sd">        :return: Returns the id of the new entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="c1"># Execute the SQL statement with &#39;args&#39;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="c1"># Get the last created id after executing the SQL statement.</span>
+            <span class="c1"># This is useful to get primary key values that were set as auto-increment.</span>
+            <span class="n">created_id</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Type</span><span class="o">.</span><span class="n">Mysql</span><span class="p">):</span> <span class="n">created_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">insert_id</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Type</span><span class="o">.</span><span class="n">Sqlite3</span><span class="p">):</span> <span class="n">created_id</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+                        
+            <span class="c1"># Save (commit) the changes and close the cursor</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement executed  :&quot;</span> <span class="o">+</span> <span class="n">statement</span><span class="p">)</span>
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement arguments :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;Last inserted ID        :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">created_id</span><span class="p">))</span>
+            <span class="c1"># &#39;You make me want to be a better man.&#39;</span>
+            <span class="k">return</span><span class="p">({</span><span class="s2">&quot;id:&quot;</span><span class="p">:</span> <span class="n">created_id</span><span class="p">})</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;INSERT&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data Manipulation - UPDATE.</span>
+
+<span class="sd">        :param statement: The UPDATE statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :param args: SQL statement arguments.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :raises BadRequest: Raises an exception if a database related error is catched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> 
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement executed :&quot;</span> <span class="o">+</span> <span class="n">statement</span><span class="p">)</span>
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL values parsed      :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+            <span class="c1"># Execute the SQL statement with &#39;values&#39;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="c1"># Save (commit) the changes and close the cursor</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;UPDATE&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data Manipulation - DELETE.</span>
+
+<span class="sd">        :param statement: The DELETE statement to be executed against the database.</span>
+<span class="sd">        :type statement: str</span>
+<span class="sd">        :param args: SQL statement arguments.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :raises BadRequest: Raises an exception if a database related error is catched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> 
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL statement executed :&quot;</span> <span class="o">+</span> <span class="n">statement</span><span class="p">)</span>
+            <span class="n">froggy</span><span class="o">.</span><span class="n">gadgets</span><span class="o">.</span><span class="n">fprint</span><span class="p">(</span><span class="s2">&quot;SQL values parsed      :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+            <span class="c1"># Execute the SQL statement with &#39;args&#39;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="c1"># Save (commit) the changes and close the cursor</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Database error&quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, tiagomiguelcs.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
