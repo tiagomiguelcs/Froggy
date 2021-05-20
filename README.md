@@ -18,6 +18,8 @@ cd froggy
 pip3 install .
 npm install -g apidoc
 ```
+## Documentation
+You can find the documentation at the following [link](https://tiagomiguelcs.github.io/froggy/).
 
 # Quick start
 A minimal restful API can be implemented using  **<span style="color:#adc03a"> froggy's:frog:</span>** **``Framework``** class. 
@@ -40,8 +42,6 @@ export FLASK_APP=minimal.py
 flask run
 ```
 
-## Documentation
-Soonish. 
 
 # Cookbook
 Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below. 
