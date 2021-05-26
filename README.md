@@ -194,7 +194,7 @@ def get_files(filename):
 The following service can be implemented to remove a file from a public or static folder:
 
 ```python
-# get_files.py
+# remove_file.py
 UPLOAD_DIR = os.path.join(os.getcwd(),"public")
 
 @framework.frogify('/cookbook/files/<string:filename>', methods=['DELETE'])
