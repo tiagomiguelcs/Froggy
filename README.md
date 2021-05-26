@@ -11,13 +11,14 @@
 
 
 # Installation 
-You can install **<span style="color:#adc03a"> froggy:frog:</span>** with pip3:
+In order to use **<span style="color:#adc03a"> froggy:frog:</span>** on your projects, you can install it with ```pip3```:
 ```console
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
 pip3 install .
 npm install -g apidoc
 ```
+
 ## Documentation
 You can find the documentation at the following [link](https://tiagomiguelcs.github.io/froggy/).
 
@@ -349,6 +350,10 @@ def hello(name):
     return framework.response("Hello,"+name)
 ```
 3. You're done:thumbsup:! You can now access the documentation created under the root of the project. 
+
+# Developing Froggy
+<!-- Be free to fork away, froggy can be easly developed using the following set of commands -->
+Soonish
 
 # Issues
 
