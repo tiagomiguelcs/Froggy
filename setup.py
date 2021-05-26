@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='froggy',
-    version='0.0.1',    
+    version='0.0.2',    
     description='A keep it simple, stupid (KISS) framework for the development of REST-based services.',
     url='https://github.com/tiagomiguelcs/froggy',
     author='Tiago Simões',
