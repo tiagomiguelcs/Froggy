@@ -21,6 +21,7 @@ SETTINGS = {
          "jwt_expiration_seconds": 86400
      },
 }
+UPLOAD_DIR = os.path.join(os.getcwd(),"public")
 
 # Instanciate the Flask class and froggy framework initialized with the Flask application.
 app = Flask(__name__, template_folder='templates', static_url_path="", static_folder="../docs/")
@@ -178,7 +179,7 @@ def hello_world(name):
     data={"message": "Hello Frogs of the World, "+name}
     return framework.response(data)
 
-@framework.frogify('/cookbook/databases/sqlite3/<statement>')
+@framework.frogify('/cookbook/databases/sqlite3/<statement>', methods=['GET'])
 def database(statement):
     # : <br/> SELECT * FROM user; <br/> INSERT INTO user (id, email) VALUES (?, ?); <br/> UPDATE user SET email=? WHERE id=?; <br/> DELETE FROM user WHERE id>?;
     """
@@ -271,3 +272,62 @@ def database(statement):
         database.execute(sql, args)
 
     '''
+
+@framework.frogify('/cookbook/files/<string:filename>', authorization=True, methods=['DELETE'])
+def remove_file(filename):
+    """
+    @api {delete} /cookbook/files/hello.txt Remove File
+    @apiDescription Example of a service that implements a way to delete a file from a static folder on the server.
+    @apiName remove
+    @apiGroup File Handling
+    @apiHeader (Authorization) {String} Authorization Web Token
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" -X DELETE http://localhost:5000/cookbook/files/sample.txt
+    """
+    if (froggy.files.File.remove(UPLOAD_DIR, filename)):
+        return(framework.response())
+
+@framework.frogify('/cookbook/files', authorization=True, methods=['GET'])
+def get_files():
+    """
+    @api {get} /cookbook/files List Files
+    @apiDescription Example of a service that implements a way to return the list of files available on a static folder of the server.
+    @apiName list
+    @apiGroup File Handling
+    @apiHeader (Authorization) {String} Authorization Web Token
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" http://localhost:5000/cookbook/files
+    """
+    return(framework.response(froggy.files.File.list(UPLOAD_DIR)))
+
+@framework.frogify('/cookbook/files/get/<path:filename>', authorization=True, methods=['GET'])
+def get_file(filename):
+    """
+    @api {get} /cookbook/files/get/sample.txt Get File
+    @apiDescription Example of a service that implements a way to download a file from a server static folder.
+    @apiName Get
+    @apiGroup File Handling
+    @apiHeader (Authorization) {String} Authorization Web Token
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" http://localhost:5000/cookbook/files/get/sample.txt
+    """
+    return(froggy.files.File.get(UPLOAD_DIR, filename, True))
+
+@framework.frogify('/cookbook/files/upload', authorization=True, methods=['POST'])
+def upload():
+    """
+    @api {post} /cookbook/files/upload Upload File
+    @apiDescription Example of a service that enables the user to upload a file to a server static folder.
+    @apiName Upload
+    @apiGroup File Handling
+    @apiSampleRequest off
+    @apiHeader (Authorization) {String} Authorization Web Token
+    @apiSuccess {String} Returns the result of the upload operation.
+    @apiExample {curl} Example usage:
+        curl -H "Authorization: <token>" -X POST --form file=@sample.txt http://localhost:5000/cookbook/files/upload
+    """
+    file = froggy.files.File(request.files['file'], UPLOAD_DIR, {"txt", "md"})
+    if file.upload():
+        return(framework.response())
+    else:
+        return(framework.response(status=500))

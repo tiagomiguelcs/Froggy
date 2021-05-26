@@ -29,6 +29,11 @@ Exceptions Handling Module
 .. automodule:: froggy.exceptions
    :members:
 
+File Handling Module
+===================
+.. automodule:: froggy.files
+   :members:
+
 Froggy's Gadgets
 ===================
 .. automodule:: froggy.gadgets

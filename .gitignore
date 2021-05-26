@@ -7,3 +7,4 @@ __pycache__/
 *.mdb
 froggy.egg-info/
 config.cfg
+examples/docs
