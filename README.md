@@ -44,7 +44,19 @@ flask run
 
 
 # Cookbook
-Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below. 
+Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below:
+
+- [Using Froggy's Exceptions Handling API](#using-froggys-exceptions-handling-api)
+- [Using Froggy's Response Wrapper](#using-froggys-response-wrapper)
+- [Using Froggy's Database API](#using-froggys-database-api)
+- [Using Froggy's File Handling API](#using-froggys-file-handling-api)
+  - [Upload File](#upload-file)
+  - [Retrieve File](#retrieve-file)
+  - [Retrieve the List of Files](#retrieve-the-list-of-files)
+  - [Remove a File](#remove-a-file)
+- [Building an Authentication API](#building-an-authentication-api)
+  - [Building a Service for Authorized Users](#building-a-service-for-authorized-users)
+  - [Building a Service for Authorized Groups](#building-a-service-for-authorized-users)
 
 ### Using Froggy's Exceptions Handling API
 **<span style="color:#adc03a"> Froggy:frog:</span>** provides an exception handling API that auto returns a response object with details regarding an exception that was raisen.  
@@ -130,7 +142,65 @@ The returned JSON response object:
   }
 }
 ```
-<!--- ## Using Froggy's File API -->
+### Using Froggy's File Handling API
+Froggy can also help you to build a file handling system by wrapping several ```Flask``` and ```Python.os``` methods to handle files. 
+
+⚠️ **For file handling operations, it is highly recommend to use froggy's built-in authorization system (see [Building a Service for Authorized Users](#building-a-service-for-authorized-users)).**
+
+### Upload File
+In order to upload a file a public or static folder must exist on the root of the project. The service to upload a file can be implemented as follows:
+
+```python
+# upload_file.py
+UPLOAD_DIR = os.path.join(os.getcwd(),"public")
+
+@framework.frogify('/cookbook/files/upload', methods=['POST'])
+def upload():
+    file = froggy.files.File(request.files['file'], UPLOAD_DIR, {"txt", "md"})
+    if file.upload(): return(framework.response())
+```
+
+You can test the upload service using the following curl command:
+```shell 
+curl -X POST --form file=@sample.txt http://localhost:5000/cookbook/files/upload
+```
+
+### Retrieve File
+The following service can be implemented to retrieve a file from a public or static folder:
+
+```python
+# get_file.py
+UPLOAD_DIR = os.path.join(os.getcwd(),"public")
+
+@framework.frogify('/cookbook/files/get/<path:filename>', methods=['GET'])
+def get_file(filename):
+    return(froggy.files.File.get(UPLOAD_DIR, filename, True))
+```
+
+### Retrieve the List of Files 
+The following service can be implemented to retrieve the list of files available on a public or static folder:
+
+```python
+# get_files.py
+UPLOAD_DIR = os.path.join(os.getcwd(),"public")
+
+@framework.frogify('/cookbook/files', methods=['GET'])
+def get_files(filename):
+    return(framework.response(froggy.files.File.list(UPLOAD_DIR)))
+```
+
+### Remove a File 
+The following service can be implemented to remove a file from a public or static folder:
+
+```python
+# get_files.py
+UPLOAD_DIR = os.path.join(os.getcwd(),"public")
+
+@framework.frogify('/cookbook/files/<string:filename>', methods=['DELETE'])
+def remove_file(filename):
+    if (froggy.files.File.remove(UPLOAD_DIR, filename)): return(framework.response())
+```
+
 
 ### Building an Authentication API
 An authentication API should include services to signup users, perform server-side authentication and logout procedures. These services can be easly implemented using **<span style="color:#adc03a"> froggy's:frog:</span>** implementations of [JWT](https://jwt.io/) and [SQLite3](https://www.sqlite.org/index.html):
@@ -224,7 +294,7 @@ This service can be tested using the following *curl* command:
 curl -H "Authorization: <Replace-With-User-JWT>" http://localhost:5000/auth/fort_knox
 ```
 
-### Build an Authentication API for User Groups
+### Building a Service for Authorized Groups
 **<span style="color:#adc03a"> Froggy:frog:</span>** can also help you out to implement services that are only accessible by **authorized users** with a valid JWT and beloging to a list of **groups**.
 
 ```python
