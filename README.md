@@ -12,10 +12,15 @@
 
 # Installation 
 In order to use **<span style="color:#adc03a"> froggy:frog:</span>** on your projects, you can install it with ```pip3```:
-```console
+```terminal
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
 pip3 install .
+npm install -g apidoc
+```
+or
+```terminal
+pip3 install git+https://github.com/tiagomiguelcs/froggy.git
 npm install -g apidoc
 ```
 
