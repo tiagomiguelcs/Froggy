@@ -151,7 +151,7 @@ The returned JSON response object:
 ### Using Froggy's File Handling API
 Froggy can also help you to build a file handling system by wrapping several ```Flask``` and ```Python.os``` methods to handle files. 
 
-⚠️ **For file handling operations, it is highly recommend to use froggy's built-in authorization system (see [Building a Service for Authorized Users](#building-a-service-for-authorized-users)).**
+⚠️ **For file handling operations, it is highly recommend to use froggy's built-in authorization system (see [Building a Service for Authorized Users](#building-a-service-for-authorized-users) for more details).**
 
 ### Upload File
 In order to upload a file a public or static folder must exist on the root of the project. The service to upload a file can be implemented as follows:
