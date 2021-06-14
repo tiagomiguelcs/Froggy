@@ -512,7 +512,80 @@ path         - Service endpoint (use, request.path)</p>
 </section>
 <section id="file-handling-module">
 <h1>File Handling Module<a class="headerlink" href="#file-handling-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-froggy.files"></span></section>
+<span class="target" id="module-froggy.files"></span><dl class="py class">
+<dt class="sig sig-object py" id="froggy.files.File">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">froggy.files.</span></span><span class="sig-name descname"><span class="pre">File</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upload_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_extensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/files.html#File"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.files.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>File class, the name says it all.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.files.File.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_attachment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/files.html#File.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.files.File.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static method to get a file from a static folder available on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>upload_directory</strong> (<em>str</em>) – The upload directory that must exist on the root of the project.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file to be removed.</p></li>
+<li><p><strong>as_attachment</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to true if you want to send this file with a Content-Disposition: attachment header, defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises when the file is not found on the upload directory or there are permission-related errors.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns the file content.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.files.File.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/files.html#File.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.files.File.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of files from a static folder available on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>upload_directory</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.files.File.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/files.html#File.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.files.File.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static method to remove a file from a static folder available on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>upload_directory</strong> (<em>str</em>) – Target upload directory that must exist on the root of the project.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file to be removed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises when the file is not found on the upload directory or there are permission-related errors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="froggy.files.File.upload">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/froggy/files.html#File.upload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#froggy.files.File.upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads a file to a static folder available on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises if the filename defines a subdirectory.</p></li>
+<li><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises if the type of the valid is not valid.</p></li>
+<li><p><a class="reference internal" href="#froggy.exceptions.BadRequest" title="froggy.exceptions.BadRequest"><strong>BadRequest</strong></a> – Raises if a invalid file is parsed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-froggy.gadgets">
 <span id="froggy-s-gadgets"></span><h1>Froggy’s Gadgets<a class="headerlink" href="#module-froggy.gadgets" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
