@@ -16,12 +16,12 @@ In order to use **<span style="color:#adc03a"> froggy:frog:</span>** on your pro
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
 pip3 install .
-npm install -g apidoc
+sudo npm install -g apidoc
 ```
 or
 ```terminal
 pip3 install git+https://github.com/tiagomiguelcs/froggy.git
-npm install -g apidoc
+sudo npm install -g apidoc
 ```
 
 ## Documentation
@@ -357,8 +357,34 @@ def hello(name):
 3. You're done:thumbsup:! You can now access the documentation created under the root of the project. 
 
 # Developing Froggy
-<!-- Be free to fork away, froggy can be easly developed using the following set of commands -->
-Soonish
+Be free to fork away to add or update Froggy's APIs. Below you can find some guidelines to start.<br/>
+
+1. Install Froggy and apiDoc system wide using `pip` and `npm` (alternatively, a virtual environment can also be used):
+```console
+git clone https://github.com/tiagomiguelcs/froggy.git
+cd froggy
+pip3 install .
+sudo npm install -g apidoc
+```
+After you have implemented your new awesome features, you can update the froggy package as follows:
+```console
+pip3 install --upgrade .
+```
+It is highly recommended to use [Sphinx docstring format](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html) to document newly implemented functions, methods, or classes. The documentation can then later be compiled  using the following set of commands:
+```console
+cd docs
+make html
+```
+
+
+2. Create a demo application to test the newly added features:
+```console
+mkdir demo
+cd demo
+touch demo.py
+python3 -m venv venv
+source venv/bin/activate
+```
 
 # Issues
 
