@@ -12,6 +12,8 @@ from werkzeug.utils import secure_filename
 import os
 
 class File:
+    """File class, the name says it all.
+    """
     def __init__(self, file, upload_directory, allowed_extensions=None):
         """The main File class
 
@@ -53,7 +55,7 @@ class File:
         for filename in os.listdir(upload_directory):
             path = os.path.join(upload_directory, filename)
             if os.path.isfile(path):
-                if (filename[0] is not "."):
+                if (filename[0] is not str(".")):
                     files.append(filename)
         # 'Why so serious?'
         return (files)      
