@@ -6,7 +6,7 @@
  '-._.'/M\ /M\`._,-
 """
 import os, pkg_resources
-__version__ = "0.0.2"
+__version__ = pkg_resources.require("froggy")[0].version
 
 # All the modules under the froggy package should be imported here
 from . import framework
