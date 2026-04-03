@@ -35,7 +35,7 @@ sudo npm install -g apidoc
 ```
 
 ## Documentation
-You can find the documentation at the following [link](https://tiagomiguelcs.github.io/froggy/).
+You can find the documentation at the following [link](https://tiagomiguelcs.github.io/Froggy/).
 
 # Quick start
 A minimal restful API can be implemented using  **<span style="color:#adc03a"> froggy's:frog:</span>** **``Framework``** class. 
