@@ -9,17 +9,27 @@
   A keep it simple, stupid (KISS) framework for the development of REST-based microservices.
 </p>
 
+# Virtual Environment Installation
+To get started, create a new Python project and install **<span style="color:#adc03a"> froggy:frog:</span>** inside a virtual environment:
 
-# Installation 
+```console
+mkdir myproject
+cd myproject
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install git+https://github.com/tiagomiguelcs/froggy.git
+```
+
+# Local Installation (Not Recommended) 
 In order to use **<span style="color:#adc03a"> froggy:frog:</span>** on your projects, you can install it with ```pip3```:
-```terminal
+```console
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
 pip3 install .
 sudo npm install -g apidoc
 ```
 or
-```terminal
+```console
 pip3 install git+https://github.com/tiagomiguelcs/froggy.git
 sudo npm install -g apidoc
 ```
@@ -46,6 +56,8 @@ def hello_world():
 ```console
 export FLASK_APP=minimal.py
 flask run
+
+curl http://127.0.0.1:5000/hello_world
 ```
 
 
