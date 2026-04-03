@@ -10,7 +10,7 @@
 </p>
 
 # Virtual Environment Installation
-To get started, create a new Python project and install **<span style="color:#adc03a"> froggy:frog:</span>** inside a virtual environment:
+To get started, create a new Python project and install **<span style="color:#adc03a"> froggy :frog: </span>** inside a virtual environment:
 
 ```console
 mkdir myproject
@@ -21,7 +21,7 @@ pip3 install git+https://github.com/tiagomiguelcs/froggy.git
 ```
 
 # Local Installation (Not Recommended) 
-In order to use **<span style="color:#adc03a"> froggy:frog:</span>** on your projects, you can install it with ```pip3```:
+In order to use **<span style="color:#adc03a"> froggy :frog: </span>** on your projects, you can install it with ```pip3```:
 ```console
 git clone https://github.com/tiagomiguelcs/froggy.git
 cd froggy
@@ -38,7 +38,7 @@ sudo npm install -g apidoc
 You can find the documentation at the following [link](https://tiagomiguelcs.github.io/Froggy/).
 
 # Quick start
-A minimal restful API can be implemented using  **<span style="color:#adc03a"> froggy's:frog:</span>** **``Framework``** class. 
+A minimal restful API can be implemented using  **<span style="color:#adc03a"> froggy's :frog: </span>** **``Framework``** class. 
 ```python
 # minimal.py
 from flask import Flask, request
@@ -62,7 +62,7 @@ curl http://127.0.0.1:5000/hello_world
 
 
 # Cookbook
-Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy:frog:</span>** can be found below:
+Several 'recipes' for the implementation of REST-based Flask Services using **<span style="color:#adc03a"> Froggy :frog: </span>** can be found below:
 
 - [Using Froggy's Exceptions Handling API](#using-froggys-exceptions-handling-api)
 - [Using Froggy's Response Wrapper](#using-froggys-response-wrapper)
@@ -101,7 +101,7 @@ def divide(x, y):
 ```
 
 ### Using Froggy's Response Wrapper
-A response JSON Object can be returned by a service with a single line of code. **<span style="color:#adc03a"> Froggy:frog:</span>** response wrapper uses [Flask's](https://flask.palletsprojects.com/en/1.1.x/api/)  **`make_response`** and **`jsonify`** methods.
+A response JSON Object can be returned by a service with a single line of code. **<span style="color:#adc03a"> Froggy :frog: </span>** response wrapper uses [Flask's](https://flask.palletsprojects.com/en/1.1.x/api/)  **`make_response`** and **`jsonify`** methods.
 
 ```python
 # response.py
@@ -121,7 +121,7 @@ def hello(name):
 ```
 
 ### Using Froggy's Database API
-You can easly modify data and table structures using **<span style="color:#adc03a"> froggy's:frog:</span>** [SQLite3](https://www.sqlite.org/index.html) - [MySQL](https://www.mysql.com/) is also supported - wrapper that takes care of exceptions, cursor handling, and results formating:
+You can easly modify data and table structures using **<span style="color:#adc03a"> froggy's :frog: </span>** [SQLite3](https://www.sqlite.org/index.html) - [MySQL](https://www.mysql.com/) is also supported - wrapper that takes care of exceptions, cursor handling, and results formating:
 ```python
 # sqlite3.py
 import sqlite3, os
@@ -221,7 +221,7 @@ def remove_file(filename):
 
 
 ### Building an Authentication API
-An authentication API should include services to signup users, perform server-side authentication and logout procedures. These services can be easly implemented using **<span style="color:#adc03a"> froggy's:frog:</span>** implementations of [JWT](https://jwt.io/) and [SQLite3](https://www.sqlite.org/index.html):
+An authentication API should include services to signup users, perform server-side authentication and logout procedures. These services can be easly implemented using **<span style="color:#adc03a"> froggy's :frog: </span>** implementations of [JWT](https://jwt.io/) and [SQLite3](https://www.sqlite.org/index.html):
 
 ```python
 # auth.py
@@ -291,7 +291,7 @@ On a production environment, please, **do not post your password without** SSL e
 
 
 ### Building a Service for Authorized Users
-**<span style="color:#adc03a"> Froggy:frog:</span>** can also help you out to implement services that are only accessible by **authorized** users with a valid JWT (i.e., with an active login session):
+**<span style="color:#adc03a"> Froggy :frog: </span>** can also help you out to implement services that are only accessible by **authorized** users with a valid JWT (i.e., with an active login session):
 ```python
 # secure_user.py
 # Only authenticated users can access this service.
@@ -313,7 +313,7 @@ curl -H "Authorization: <Replace-With-User-JWT>" http://localhost:5000/auth/fort
 ```
 
 ### Building a Service for Authorized Groups
-**<span style="color:#adc03a"> Froggy:frog:</span>** can also help you out to implement services that are only accessible by **authorized users** with a valid JWT and beloging to a list of **groups**.
+**<span style="color:#adc03a"> Froggy :frog: </span>** can also help you out to implement services that are only accessible by **authorized users** with a valid JWT and beloging to a list of **groups**.
 
 ```python
 # secure_group.py
@@ -326,7 +326,7 @@ def fort_knox():
 ```
 
 ### Deploying Documentation
-A service can be easly documented using **<span style="color:#adc03a"> froggy's:frog:</span>** [apiDoc](https://github.com/apidoc/apidoc) wrapper.
+A service can be easly documented using **<span style="color:#adc03a"> froggy's :frog: </span>** [apiDoc](https://github.com/apidoc/apidoc) wrapper.
 
 1. Create a file called [**`apidoc.json`**](https://apidocjs.com/#example-basic) on the root of the project as follows: 
 ```json
